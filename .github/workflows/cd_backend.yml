@@ -37,6 +37,6 @@ jobs:
             # Pull the latest image
             sudo docker pull kunalnasa/todo-app-backend:${{ github.sha }}
 
-            # Run the new container
+            # Run the new container 
             sudo docker run --name user_backend -d -p 8080:8080 -e DATABASE_URL="${{ secrets.DATABASE_URL }}" kunalnasa/todo-app-backend:${{ github.sha }}
           EOF
