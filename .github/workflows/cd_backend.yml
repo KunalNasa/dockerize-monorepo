@@ -22,3 +22,4 @@ jobs:
               file: ./docker/Dockerfile.backend
               push: true
               tags: kunalnasa/todo-app-backend:${{ github.sha }}
+              
