@@ -38,4 +38,6 @@ app.post("/user", (req, res) => {
     });
 })
 
-app.listen(8080);
+app.listen(8080, () => {
+  console.log("App is live on port 8080");
+});
