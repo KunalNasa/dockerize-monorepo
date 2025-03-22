@@ -19,5 +19,5 @@ RUN bun db:generate
 
 EXPOSE 8080
 
-CMD ["bun", "rund", "start:http"]
+CMD ["bun", "run", "start:http"]
 
