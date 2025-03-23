@@ -22,5 +22,5 @@ jobs:
               file: ./docker/Dockerfile.frontend
               DATABASE_URL: ${{ secrets.DATABASE_URL }}
               push: true
-              tags: kunalnasa/todo-app-backend:${{ github.sha }}
+              tags: kunalnasa/todo-app-frontend:${{ github.sha }}
               
