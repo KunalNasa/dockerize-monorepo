@@ -13,9 +13,9 @@ COPY ./turbo.json ./turbo.json
 COPY ./apps/web ./apps/web
 
 
-RUN bun install
+RUN bun install --no-cache
 RUN bun db:generate
-RUN DATABASE_URL=${DATABASE_URL} bun run build
+RUN DATABASE_URL=$DATABASE_URL bunx turbo build --filter=web...
 
 
 EXPOSE 3000
