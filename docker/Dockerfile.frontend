@@ -1,8 +1,7 @@
 FROM oven/bun:1 AS base
 
 WORKDIR /usr/src/app
-ARG DATABASE_URL
-ENV DATABASE_URL=${DATABASE_URL}
+# ARG DATABASE_URL
 #DONOT COPY . . as it would copy the whole directory in backend docker file
 COPY ./packages  ./packages
 COPY ./bun.lock ./bun.lock
@@ -15,11 +14,11 @@ COPY ./apps/web ./apps/web
 
 
 RUN bun install --no-cache
-# RUN bun db:generate && bun db:migrate
+RUN bun db:generate && bun db:migrate
 # only pass the build arg if you need DB at the time of build.
 # You would require DB during build if your SSG is making connection to DB
-RUN DATABASE_URL=$DATABASE_URL bun db:generate && bun db:migrate
-RUN bunx turbo build --filter=web...
+# RUN DATABASE_URL=$DATABASE_URL bunx turbo build --filter=web...
+
 
 EXPOSE 3000
 

@@ -16,8 +16,8 @@ services:
       build: 
         context: .
         dockerfile: ./docker/Dockerfile.frontend
-        args:
-          DATABASE_URL: "postgresql://postgres:mypass@postgres:5432/my_docker_app"
+        # args:
+        #   - DATABASE_URL="postgresql://postgres:postgres@postgres:5432/mydb?schema=public"
       ports:
         - 3000:3000
       environment:
@@ -38,13 +38,12 @@ services:
           condition: service_healthy
     postgres:
       image: postgres
-      restart: always
+      ports:
+      - 5432:5432
       environment:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: mypass
         POSTGRES_DB: my_docker_app
-      ports:
-      - 5432:5432
       volumes:
         - postgres_data:/var/lib/postgresql/data
       healthcheck:
