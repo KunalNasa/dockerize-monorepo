@@ -2,7 +2,6 @@ import { client } from "@repo/db/config";
 
 
 Bun.serve({
-    hostname: "0.0.0.0",
     port: 8081,
     fetch(req, server) {
       // upgrade the request to a WebSocket
