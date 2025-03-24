@@ -10,6 +10,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "check-types": "turbo run check-types",
     "start:web" : "bun run db:migrate && cd apps/web && bun run start",
+    "build:web" : "cd apps/web && bun run build",
     "start:http": "bun run db:migrate && cd apps/http-server && bun run start",
     "start:ws" : "bun run db:migrate && cd apps/ws-server && bun run start" 
   },

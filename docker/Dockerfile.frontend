@@ -15,6 +15,7 @@ COPY ./apps/web ./apps/web
 
 RUN bun install --no-cache
 RUN bun db:generate && bun db:migrate
+RUN bun build:web
 # only pass the build arg if you need DB at the time of build.
 # You would require DB during build if your SSG is making connection to DB
 # RUN DATABASE_URL=$DATABASE_URL bunx turbo build --filter=web...
