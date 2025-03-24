@@ -10,8 +10,7 @@ services:
       environment:
         - DATABASE_URL=postgresql://postgres:mypass@postgres:5432/my_docker_app
       depends_on:
-        postgres:
-          condition: service_healthy
+        - postgres
     frontend:
       build: 
         context: .
@@ -23,8 +22,7 @@ services:
       environment:
         - DATABASE_URL=postgresql://postgres:mypass@postgres:5432/my_docker_app
       depends_on:
-        postgres:
-          condition: service_healthy
+        - postgres
     websocket:
       build:
         context: .
@@ -34,22 +32,12 @@ services:
       environment:
         - DATABASE_URL=postgresql://postgres:mypass@postgres:5432/my_docker_app
       depends_on:
-        postgres:
-          condition: service_healthy
+        - postgres
     postgres:
       image: postgres
       ports:
-      - 5432:5432
+        - 5432:5432
       environment:
         POSTGRES_USER: postgres
         POSTGRES_PASSWORD: mypass
         POSTGRES_DB: my_docker_app
-      volumes:
-        - postgres_data:/var/lib/postgresql/data
-      healthcheck:
-        test: ["CMD", "pg_isready", "-U", "postgres"]
-        interval: 10s
-        retries: 5
-        start_period: 10s
-volumes:
-  postgres_data:

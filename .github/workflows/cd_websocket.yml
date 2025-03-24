@@ -22,4 +22,36 @@ jobs:
               file: ./docker/Dockerfile.websocket
               push: true
               tags: kunalnasa/todo-app-websocket:${{ github.sha }}
-              
+          - name: Deploy to EC2
+            run: |
+              echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+              chmod 600 ~/ssh_key
+      
+              ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.127.199.146 << 'EOF'
+                # Stop and remove any existing container
+                sudo docker stop user_websocket || true
+                sudo docker rm user_websocket || true
+    
+                # Pull the latest image
+                sudo docker pull kunalnasa/todo-app-websocket:${{ github.sha }}
+      
+                # Run the new container 
+                sudo docker run --name user_websocket -d -p 3000:3000 -e DATABASE_URL="${{ secrets.DATABASE_URL }}" kunalnasa/todo-app-websocket:${{ github.sha }}
+              EOF
+              - name: Deploy to EC2
+              run: |
+                echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/ssh_key
+                chmod 600 ~/ssh_key
+        
+                ssh -o StrictHostKeyChecking=no -i ~/ssh_key ubuntu@13.127.199.146 << 'EOF'
+                  # Stop and remove any existing container
+                  sudo docker stop user_websocket || true
+                  sudo docker rm user_websocket || true
+      
+                  # Pull the latest image
+                  sudo docker pull kunalnasa/todo-app-websocket:${{ github.sha }}
+        
+                  # Run the new container 
+                  sudo docker run --name user_websocket -d -p 3000:3000 -e DATABASE_URL="${{ secrets.DATABASE_URL }}" kunalnasa/todo-app-websocket:${{ github.sha }}
+                EOF
+        
