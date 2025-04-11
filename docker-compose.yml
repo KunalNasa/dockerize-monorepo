@@ -4,40 +4,53 @@ services:
     backend: 
       build:
         context: .
-        dockerfile: ./docker/Dockerfile.backend
+        dockerfile: ./docker/Dockerfile.dev.be
       ports:
         - 8080:8080
-      environment:
-        - DATABASE_URL=postgresql://postgres:mypass@postgres:5432/my_docker_app
+      env_file:
+        - ./packages/db/.env
       depends_on:
         - postgres
+      volumes:
+      - .:/app
+      - /app/node_modules
     frontend:
       build: 
         context: .
-        dockerfile: ./docker/Dockerfile.frontend
-        # args:
-        #   - DATABASE_URL="postgresql://postgres:postgres@postgres:5432/mydb?schema=public"
+        dockerfile: ./docker/Dockerfile.dev.fe
+      env_file:
+        - ./packages/db/.env
       ports:
         - 3000:3000
-      environment:
-        - DATABASE_URL=postgresql://postgres:mypass@postgres:5432/my_docker_app
       depends_on:
         - postgres
+      volumes:
+      - .:/app
+      - /app/node_modules
     websocket:
       build:
         context: .
         dockerfile: ./docker/Dockerfile.websocket
       ports: 
         - 8081:8081
-      environment:
-        - DATABASE_URL=postgresql://postgres:mypass@postgres:5432/my_docker_app
+      env_file:
+        - ./packages/db/.env
       depends_on:
         - postgres
+      volumes:
+      - .:/app
+      - /app/node_modules
     postgres:
       image: postgres
       ports:
         - 5432:5432
       environment:
         POSTGRES_USER: postgres
-        POSTGRES_PASSWORD: mypass
-        POSTGRES_DB: my_docker_app
+        POSTGRES_PASSWORD: my_pass
+        POSTGRES_DB: postgres
+      volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
+        

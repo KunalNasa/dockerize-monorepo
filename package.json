@@ -3,7 +3,7 @@
   "private": true,
   "scripts": {
     "db:generate" : "cd packages/db && npx prisma generate && cd ../..",
-    "db:migrate" : "cd packages/db && npx prisma migrate && cd ../..",
+    "db:migrate" : "cd packages/db && npx prisma migrate dev --name init && cd ../..",
     "build": "turbo run build",
     "dev": "turbo run dev",
     "lint": "turbo run lint",
@@ -12,7 +12,11 @@
     "start:web" : "bun run db:migrate && cd apps/web && bun run start",
     "build:web" : "cd apps/web && bun run build",
     "start:http": "bun run db:migrate && cd apps/http-server && bun run start",
-    "start:ws" : "bun run db:migrate && cd apps/ws-server && bun run start" 
+    "docker-dev:web" : "bun run db:generate && bun run db:migrate && cd apps/web && bun run dev && cd ../..",
+    "docker-dev:ws-server" : "bun run db:generate && bun run db:migrate && cd apps/ws-server && bun src/index.ts && cd ../..",
+    "docker-dev:http-server" : "bun run db:generate && bun run db:migrate && cd apps/http-server && bun src/index.ts && cd ../..",
+    "start:ws" : "bun run db:migrate && cd apps/ws-server && bun run start",
+    "dev:web" : "cd apps/web && bun run dev && cd ../.."
   },
   "devDependencies": {
     "prettier": "^3.5.3",
